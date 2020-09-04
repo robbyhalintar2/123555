@@ -1,45 +1,42 @@
-const Discord = require("discord.js");
-const fs = require("fs");
-const config = require("./config.json");
-const prefix = config.prefix;
-const bot = new Discord.Client({
-  disableMentions: "everyone",
-  partials: ["REACTION"],
+const { Client } = require("klasa");
+const { Collection } = require("discord.js");
+const config = require("./assets/settings.json");
+const { envCheck, speech, dataManager, util, commandRemover, schemaManager } = require("./utilities/utilExport.js");
+const { existsSync } = require("fs");
+
+envCheck(); //Checks to make sure Margarine is running in the right enviroment.
+
+const client = new Client({
+    fetchAllMembers: false,
+    prefix: config.prefix,
+    language: "en-CA",
+    commandEditing: true,
+    readyMessage: (client) => `This is ${client.user.username} speaking! Online and awaiting orders!\nI'm currently serving ${client.guilds.cache.size} guilds and ${client.users.cache.size} people!`
 });
-const mongoose = require("mongoose");
-bot.prefix = prefix;
-bot.commands = new Discord.Collection();
-bot.aliases = new Discord.Collection();
-bot.snipes = new Discord.Collection();
-bot.events = new Discord.Collection();
-bot.categories = fs.readdirSync("./commands/");
-const token = require(`./token.json`);
-const message = require("./events/guild/message");
-mongoose.connect(token.Mongo, {
-  useUnifiedTopology: true,
-  useNewUrlParser: true,
-});
-["command", "server"].forEach((handler) => {
-  require(`./handlers/${handler}`)(bot);
-});
-bot.on("ready", () => {
-  require("./events/client/ready")(bot);
-});
-bot.on("message", async (message) => {
-  message.member; //-- GuildMember based
-  message.author; //-- User based
-  require("./events/guild/message")(bot, message);
-});
-bot.on("messageUpdate", async (oldMessage, newMessage) => {
-  require("./events/guild/messageUpdate")(oldMessage, newMessage);
-});
-bot.on("messageDelete", async (message) => {
-  require("./events/guild/messageDelete")(message);
-});
-bot.on("messageReactionAdd", (reaction, user) => {
-  require("./events/guild/messageReactionAdd")(reaction, user);
-});
-bot.on("messageReactionRemove", (reaction, user) => {
-  require("./events/guild/messageReactionRemove")(reaction, user);
-});
-bot.login(token.Token);
+
+Client.defaultPermissionLevels
+    .add(5, ({ guild, member }) => guild && member.roles.cache.has(guild.settings.modRole))
+    .add(6, ({ guild, member }) => guild && member.permissions.has("ADMINISTRATOR"))
+    .add(7, ({ guild, member }) => guild && guild.ownerID === member.id)
+    .add(9, ({ author, client }) => author === client.owner || client.secondary.includes(author.id))
+    .add(10, ({ author, client }) => author === client.owner);
+
+schemaManager(client); //Adds all configurable settings.
+
+client.speech = speech;
+client.dataManager = dataManager;
+client.util = util; //All utility functions and extra search functions
+
+if (!existsSync(config.database)) { dataManager("init"); } //Init the SQLite Database
+
+client.ownerSetting = new Collection();
+client.music = new Collection();
+
+client.build = config.build;
+client.globalPrefix = config.prefix;
+
+client.itemData = require("./assets/items.json");
+
+commandRemover();
+
+client.login(config.token);

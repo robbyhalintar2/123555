@@ -1,0 +1,9 @@
+{
+    "token": "NzI1MDE1NTM2OTk5NTk2MDMy.XvIlVg.Won0PpCvKa_QIZTsRFJ1NsMFctU",
+    "prefix": ">", 
+    "build": {
+        "version": "Release 1.3.5",
+        "releaseDate": "July 21st, 2020"
+    },
+    "database": "./assets/MargarineData.sqlite"
+}
