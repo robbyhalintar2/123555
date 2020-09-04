@@ -1,25 +1,103 @@
-# MargarineBot
-![License](https://img.shields.io/github/license/Butterstroke/MargarineBot.svg?style=flat-square) ![Support Server](https://discordapp.com/api/guilds/303253034551476225/widget.png)
+![Midori](http://i.imgur.com/XY3TmDR.png)
 
-<b>Dependencies</b>
+<div align="center">
+    <a href="https://discord.gg/jD5V5EH">
+        <img src="https://discordapp.com/api/guilds/292970618834649088/embed.png" />
+    </a>
+    <a href="https://david-dm.org/kurisubrooks/midori">
+        <img src="https://david-dm.org/kurisubrooks/midori/dev-status.svg" />
+    </a>
+    <br /><br />
+    Brand spanking new Nano with 100% less shit code!
+    <br />
+    Click <a href="https://discordapp.com/oauth2/authorize?client_id=212915056491495424&scope=bot">here</a> to add Midori to your server!</span>
+</div>
 
-![discord.js](https://img.shields.io/badge/discord.js-v12.2.0-brightgreen.svg) ![klasa](https://img.shields.io/badge/Klasa-v0.5.0-brightgreen.svg) ![node](https://img.shields.io/badge/Node-v12.0.0+-brightgreen.svg)
+## Building
 
-A Discord bot coded in Node.js using the Discord.js Library and the Klasa framework.
+### Prerequisites
+**macOS**
+```bash
+brew install pkg-config cairo pango libpng jpeg giflib
+```
 
-## Introduction
+**Ubuntu**
+```bash
+sudo apt install libcairo2-dev libjpeg8-dev libpango1.0-dev libgif-dev build-essential g++
+```
 
-MargarineBot is a multi-purpose Discord bot that ranges in features such as server moderation, to an economy system using a SQLite database, to starboards, and much more. MargarineBot also features highly customizable settings for your guild to personalize and maximize his potential in your server!
+### Installation
+```bash
+git clone https://github.com/kurisubrooks/midori.git
+cd midori/
+npm install
+```
 
-Created through part-desire, part-what can I do in Discord, part-I'm going to learn Javascript, and part-it's only midnight thoughts, MargarineBot has been my personal project for several years now. For the amount of time and effort I've spent, I'm quite proud of my work and the functionality I've be able to pull off. Ever since the start of his development, I've recieved plenty of support and can't thank those people enough. As without it, Margarine would never be as big or as good as he is today. So, take a look... get some inspiration... just be sure to enjoy Margarine as much as I do.
+### Setup
+Create a file called `keychain.json` in the main directory, with the following contents, filling in each line with the appropriate keys needed for each. (Make sure to remove the comments)
 
-### Looking to invite me?
-<a href="https://discordapp.com/oauth2/authorize?client_id=315132794172997633&permissions=60482&scope=bot"> You can do so here!</a> However, music is a self-hosted feature and is not present in the bot.
+```js
+{
+    "discord": "", // Discord Bot Token
+    "darksky": "", // DarkSky Weather API Key
+    "sherlock": "", // Sherlock API Key
+    "google": {
+        "cx": "", // Google Search API CX
+        "search": "", // Google Search API Key
+        "geocode": "" // Google Geolocation API Key
+    }
+}
+```
 
-### Name Origin
-My typical nickname is Butter, as in the stuff that you put on toast. His name comes from the artificial butter (I tends to call it 'Fake Butter') you can buy in stores called, Margarine.
+### Run
+You can start Midori by simply typing the following:
 
-## License and Contact<br>
-MargarineBot is licensed under the [Apache-2.0 License](LICENSE). 
+```bash
+npm start
+```
 
-For issues and bugs, please use the issue tracker on this repository. For any other needs, either contact me by email <a href="mailto:katsurinstudios@protonmail.ch">katsurinstudios@protonmail.ch</a> or through my [Discord server](https://discord.gg/qKfqsjW) in the #margarine-bot channel.
+If you wish to run Midori under Production, you can start her with pm2 by using
+
+```bash
+pm2 start index.js --name "midori" --node-args="--harmony" -- --color
+```
+
+### Run with Docker (optional)
+If you want to deploy Midori with docker by using the ``Dockerfile`` provided, in the directory run
+
+```bash
+docker build -t midori .
+```
+
+To start simply execute
+
+```bash
+docker run -d midori
+```
+
+The ``-d`` flag means she will be running in the background.
+If you want to automatically restart her after a crash, docker has the ``restart always`` flag which you can use like so:
+
+```bash
+docker run --restart=always -d midori
+```
+
+### Development
+Thanks for taking interest in Midori!
+I've included some build commands through the Gulp build tool, some of which you might find useful.
+
+**Linting**  
+Run this command to find errors in your syntax.  
+(You'll need to do this if you plan on submitting any Pull Requests!)
+
+```bash
+npm run lint
+```
+
+**Run**  
+Run this command to start Midori.  
+You'll need to do this from the root directory
+
+```bash
+npm start
+```

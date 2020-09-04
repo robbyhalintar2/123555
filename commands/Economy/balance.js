@@ -1,43 +1,32 @@
-const { Command } = require("klasa");
-const { MessageEmbed } = require("discord.js");
+const Command = require("../../core/Command");
+const Database = require("../../core/Database");
+const { RichEmbed } = require("discord.js");
 
-module.exports = class extends Command {
-    constructor(...args) {
-        super(...args, {
-            name: "balance",
-            enabled: true,
-            runIn: ["text"],
-            aliases: ["bal", "credits", "profile"],
-            requiredPermissions: ["EMBED_LINKS"],
-            description: "Check credit amounts and cooldowns",
-            usage: "<user:usersearch>"
+class Balance extends Command {
+    constructor(client) {
+        super(client, {
+            name: "Balance",
+            description: "Get a user's balance.",
+            aliases: ["balance", "bal", "coins", "cheese"]
         });
-
-        this.humanUse = "[user]";
     }
 
-    async run(msg, [user]) {
-        var data = this.client.dataManager("select", user.id, "users");
-        if (!data) { return msg.sendLocale("DATACHECK_NOACCOUNT"); }
-
-        var cooldown = JSON.parse(data.cooldowns);
-        let time = [((Date.now() - cooldown.credit) / 86400000), ((Date.now() - cooldown.rep) / 86400000)];
-        
-        for (var x = 0; x < 2; x++) {
-            if (time[x] >= 14) { time.push(`${(time[x]/7).toFixed(2)} weeks`); }
-            else if (time[x] >= 1) { time.push(`${time[x].toFixed(2)} days`); }
-            else { time.push(`${(time[0] * 24).toFixed(2)} hours`); }
+    async run(message, channel, user) {
+        if (message.pung.length > 0) {
+            user = message.pung[0];
         }
 
-        const embed = new MessageEmbed()
-            .setTimestamp()
-            .setFooter(msg.guild.name, msg.guild.iconURL())
-            .setThumbnail(user.displayAvatarURL())
-            .setColor(0x04d5fd)
-            .setAuthor(`${user.username} | ${user.id}`)
-            .addField("Credits:", `${(data.credits).toLocaleString()} (Last redeem: ${time[2]} ago)`)
-            .addField("Reputation:", `${data.rep} (Last Rep: ${time[3]} ago)`);
+        const data = await Database.Models.Bank.findOne({ where: { id: user.id } });
+        const balance = data === null ? 0 : data.balance;
 
-        msg.channel.send(embed);
+        const embed = new RichEmbed()
+            .setColor(this.config.colours.default)
+            .setAuthor(user.nickname || user.user.username, user.avatarURL || user.user.avatarURL)
+            .addField("Balance", `${this.config.economy.emoji} ${balance}`);
+
+        await channel.send({ embed });
+        return this.delete(message);
     }
-};
+}
+
+module.exports = Balance;

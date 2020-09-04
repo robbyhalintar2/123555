@@ -1,42 +1,42 @@
-const { Client } = require("klasa");
-const { Collection } = require("discord.js");
-const config = require("./assets/settings.json");
-const { envCheck, speech, dataManager, util, commandRemover, schemaManager } = require("./utilities/utilExport.js");
-const { existsSync } = require("fs");
+// Nano Core v5
+// by @kurisubrooks
 
-envCheck(); //Checks to make sure Margarine is running in the right enviroment.
+// Core
+global.Promise = require("bluebird");
+const { Client } = require("discord.js");
+const { error } = require("./core/Util/Util");
+const keys = require("./keychain.json");
+const config = require("./config.js");
+const Logger = require("./core/Util/Logger");
+const CommandManager = require("./core/CommandManager");
+const SubprocessManager = require("./core/SubprocessManager");
 
-const client = new Client({
-    fetchAllMembers: false,
-    prefix: config.prefix,
-    language: "en-CA",
-    commandEditing: true,
-    readyMessage: (client) => `This is ${client.user.username} speaking! Online and awaiting orders!\nI'm currently serving ${client.guilds.cache.size} guilds and ${client.users.cache.size} people!`
+// Initialise
+const client = new Client();
+const Manager = new CommandManager(client);
+const Subprocesses = new SubprocessManager(client);
+
+const onReady = () => {
+    Logger.success("Discord", `Ready, Logged in as ${client.user.username}`);
+    Subprocesses.loadModules("./subprocesses/");
+
+    if (config.selfbot) {
+        delete client.user.email;
+        delete client.user.verified;
+        config.admin = [client.user.id];
+    }
+};
+
+Manager.loadCommands(config.directory);
+
+// Handle Discord
+client.login(keys.discord);
+client.once("ready", onReady);
+client.on("warn", warn => error("Core", warn));
+client.on("error", err => error("Core", err));
+client.on("message", message => Manager.handleMessage(message));
+client.on("messageUpdate", (old, _new) => {
+    if (old.content !== _new.content) Manager.handleMessage(_new);
 });
 
-Client.defaultPermissionLevels
-    .add(5, ({ guild, member }) => guild && member.roles.cache.has(guild.settings.modRole))
-    .add(6, ({ guild, member }) => guild && member.permissions.has("ADMINISTRATOR"))
-    .add(7, ({ guild, member }) => guild && guild.ownerID === member.id)
-    .add(9, ({ author, client }) => author === client.owner || client.secondary.includes(author.id))
-    .add(10, ({ author, client }) => author === client.owner);
-
-schemaManager(client); //Adds all configurable settings.
-
-client.speech = speech;
-client.dataManager = dataManager;
-client.util = util; //All utility functions and extra search functions
-
-if (!existsSync(config.database)) { dataManager("init"); } //Init the SQLite Database
-
-client.ownerSetting = new Collection();
-client.music = new Collection();
-
-client.build = config.build;
-client.globalPrefix = config.prefix;
-
-client.itemData = require("./assets/items.json");
-
-commandRemover();
-
-client.login(config.token);
+module.exports = client;

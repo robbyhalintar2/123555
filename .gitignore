@@ -1,6 +1,9 @@
-node_modules/
-.vs/
-.vscode/
-bwd/
-assets/settings.json
-assets/MargarineData.sqlite
+.DS_Store
+*.log
+logs
+bin
+node_modules
+npm-debug.log*
+keychain.json
+*.sqlite
+.vscode
