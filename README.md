@@ -1,62 +1,88 @@
-# Tupperbox
-A Discord bot written in <a href="https://github.com/abalabahaha/eris">eris</a> for proxying user messages through webhooks to emulate users having multiple user accounts.
+<p align="center">
+  <h1 align="center">😈 Spambot 😈</h1>
+</p>
 
-# Commands
-- tul!avatar  -  View or change a member's avatar
-- tul!birthday  -  View or change a member's birthday, or see upcoming birthdays
-- tul!brackets  -  View or change a member's brackets
-- tul!cfg  -  Configure server-specific settings
-  - tul!cfg prefix \<newPrefix> - Change the bot's prefix
-  - tul!cfg rename \<newname> - Change all instances of the default name 'member' in bot replies in this server to the specified term
-  - tul!cfg log \<channel> - Enable the bot to send a log of all member messages and some basic info like who registered them. Useful for having a searchable channel and for distinguishing between similar names.
-  - tul!cfg blacklist <add|remove> <channel(s)> - Add or remove channels to the bot's proxy blacklist - users will be unable to proxy in blacklisted channels.
-  - tul!cfg cmdblacklist <add|remove> <channel(s)> - Add or remove channels to the bot's command blacklist - users will be unable to issue commands in blacklisted channels.
-- tul!describe  -  View or change a member's description
-- tul!export - Export your data to a file
-- tul!feedback  -  Get a link to the support server
-- tul!find  -  Find and display info about members by name
-- tul!group - View or change your groups
-- tul!help  -  Print this message, or get help for a specific command
-- tul!invite  -  Get the bot's invite URL
-- tul!list  -  Get a detailed list of yours or another user's registered members
-- tul!listng - Like list, but without showing group info
-- tul!register  -  Register a new member
-- tul!remove  -  Unregister a member
-- tul!rename  -  Change a member's name
-- tul!showuser  -  Show the user that registered the member that last spoke
-- tul!tag  -  Remove or change a member's or your user tag (displayed next to name when proxying)
-- tul!togglebrackets - Toggle whether the brackets used to proxy also show up in the resulting message for the given member.
+<p align="center">
+  <img src="https://img.shields.io/badge/language-javascript-blue?color=FF69B4"/>
+  <img src="https://img.shields.io/github/license/ajmeese7/spambot"/>
+  <img src="https://img.shields.io/github/stars/ajmeese7/spambot"/>
+  <img src="https://img.shields.io/github/forks/ajmeese7/spambot"/>
+  <img src="https://img.shields.io/static/v1?label=%F0%9F%8C%9F&message=If%20Useful&style=style=flat&color=BC4E99" alt="Star Badge"/>
+</p>
 
-# Installation
-This bot runs off of Node.js. You can download it from https://nodejs.org/en/download/
+<p align="center">
+  <img alt="Spambot Usage GIF" src="https://user-images.githubusercontent.com/17814535/33146576-5b103a6c-cf8a-11e7-8d47-cc2938138be8.gif">
+</p>
 
-Once node is installed, run `npm install` from the bot directory to install the bot's dependencies. If the dependencies all install successfully (note: you may have to run `npm -g install windows-build-tools` first if on Windows) then you can now run the bot by running `node index`.
+This selfbot's primary purpose is to level up your profile on Discord bots such as 
+[mee6](https://github.com/cookkkie/mee6) or [Tatsumaki](https://tatsumaki.xyz). 
+Of course, either of those bots must be installed on the server you intend to use 
+this bot on for you to gain experience.
 
-Additionally, the bot now requires PostgreSQL to run. You can download it from https://www.postgresql.org/download/
-The bot now also runs with Redis. Download it from https://redis.io/download
+Since your Tatsumaki profile transfers across servers (unlike mee6), you can create your 
+own server specifically for spam messages and no one (except Discord) will know. When 
+you connect to other servers, they will just see your Tatsumaki profile and think you're 
+one cool cat.
 
-# Running
-The bot expects a file in the same directory named `.env` with some data to get it started. Format should look like this:
+mee6 gives out between 15-25 XP once per minute to prevent XP spamming, so you could change the times on the bot to reflect that very easily. It's as simple as changing `minTime = Math.ceil(2112)` to `minTime = Math.ceil(60000)` and doing something similar to `maxTime`. I recommend doing something like this because spamming messages too quickly can cause `DiscordAPIError`s, which can force the bot to stop. The settings on my personal bot are `minTime = Math.ceil(7500)` and `maxTime = Math.floor(11240)`. Tatsumaki only grants XP once every two minutes, so if you are only planning on targeting XP gain on that bot, you can set the time between messages to two minutes and one second (in milliseconds).
+
+Please feel free to modify this in any way you like. I just ask that you give credit where credit is due (and leaving a star wouldn't hurt!). If you have any problems or suggestions, feel free to open an issue or a pull request, whichever is relevant. Just remember that this is intended to be a spambot, not a fully-functional selfbot. If you're looking for something that does awesome tricks like animating emojis or searching Google, try [SharpBot](https://github.com/RayzrDev/SharpBot) by [RayzrDev](https://github.com/RayzrDev) or the creatively-named [Discord-Selfbot](https://github.com/appu1232/Discord-Selfbot) (I'm one to talk, right?) by [appu1232](https://github.com/appu1232).
+
+**Note:** Using a selfbot, especially one that spams servers with messages (like this one), may violate the [Discord terms
+of service](https://discordapp.com/terms). If you use this, your account could be shut down. I claim no responsibility if this happens to you. You have been warned.
+
+## Downloading
+
+In a command prompt in your projects folder (wherever that may be), run the following:
+
+`git clone https://github.com/ajmeese7/spambot`
+
+Also note that this will not work if you are running discord.js 11.6.3 or higher. 
+To install the newest version of discord.js that this will work on, run the following in command prompt:
+
+`npm install discord.js@11.6.2`
+
+Once finished:
+
+- Ensure you have NodeJS installed on your PC by running `npm`. If not, Google how to install it and do that now
+- In the folder from where you ran the git command, run `cd spambot` and then run `npm install`
+- Edit `config.json` and enter your token and desired prefix. It should look like this afterwards:
+
+```json
+{
+  "botToken": [ "YOUR_TOKEN_HERE", "if you want multiple accounts, put any other tokens here" ],
+  "prefix": "YOUR_DESIRED_PREFIX_HERE"
+}
 ```
-DISCORD_TOKEN=MTk4NjIyNDgzNDcxOTI1MjQ4.Cl2FMQ.ZnCjm1XVW7vRze4b7Cq4se7kKWs
-DISCORD_OWNERID=99326032288423936
-DISCORD_INVITE=431544605209788416 (note: remove this line if you don't want the bot to have an invite command)
-PGUSER=???
-PGHOST=???
-PGDATABASE=???
-PGPASSWORD=???
-PGPORT=3456
-SENTRY_DSN=https://(key)@sentry.io/(id)
-DEFAULT_PREFIX=tul!
-DEFAULT_LANG=tupper
-USE_GUILD_SUBSCRIPTIONS=false
-REDISURL=redis://localhost:6379
-```
-(don't worry, that token is a fake)
-The PG-prefixed variables should be filled in with the connection info to your PostgreSQL database set up during installation. You need a **database**, a **user** with associated **password** with full write access to that database, and the **host IP** of the machine running the server (localhost if it's the same machine).
-SENTRY_DSN is a link to a registered Sentry project. Make one here: https://sentry.io/ and copy the provided DSN link into that field.
-Edit DEFAULT_PREFIX, DEFAULT_LANG as desired. Setting USE_GUILD_SUBSCRIPTIONS to true will guarantee list, find, and logging functions will always give the correct username.
-Leave REDISURL alone unless you change the port Redis runs on or you host it on another machine.
 
-# Upgrading from JSON storage
-The new version of the bot runs on PostgreSQL and not JSON. If you would like to upgrade, install PostgreSQL, switch to the rewrite branch, and on startup the bot will prompt you to import your JSON databases to the Postgres server you've configured automatically. (Make a backup of these files first - it will delete them)
+Your prefix can be anything you want, but I tend to use the `/` because you're unlikely to ever use it on accident.
+
+## Getting your login token
+
+Go to [this link](https://github.com/Tyrrrz/DiscordChatExporter/wiki/Troubleshooting#my-token-is-disappearing-too-quickly-i-cant-copy-it) and follow the instructions
+to get your login token.
+
+> **KEEP YOUR TOKEN SECRET, AND NEVER SHARE IT WITH ANYONE**
+
+## Controlling the selfbot
+I run the bot on Node v9.0.0, and I can't verify whether or not it will run on other versions. Before creating an issue, please ensure that you try with v9.0.0 or later. If you get any warnings when running `npm install`, try ignoring them and running the bot first to check if it works anyways.
+
+To start the selfbot, open a command prompt from the folder containing the repository, run:
+
+ `node bot.js`
+
+ To stop it, click on the terminal and press **CTRL+C**, which will kill the process.
+
+## Command Flags
+For users who want easy control over the bot without modifying any code, this is for you.
+
+- `--message "Your message here"` will change the text that is spammed
+- `--maxMessages 100` will stop the bot after 100 messages are sent
+- `--setTime 1000` makes the message send exactly every 1000 milliseconds, or every second
+- `--minTime 2000` sets minTime to 2 seconds, which will be the minimum amount of time that passes between each message sending
+- `--maxTime 5000` sets maxTime to 5 seconds, which will be the maximum amount of time that passes between each message sending
+- `--prune` will delete the messages immediately after they are sent
+
+A full example command I used is `node bot.js --message "testing new flags" --maxMessages 4 --setTime 2500 --prune`.
+
+**NOTE:** using the `setTime` flag will override minTime and maxTime, so attempting to use both methods will be pointless. Also keep in mind that setting times that are very small can cause unexpected behavior in Discord, such as deleting the wrong messages and not deleting at all.
