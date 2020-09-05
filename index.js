@@ -1,58 +1,65 @@
-require('module-alias/register')
+require("dotenv").config();
+const Sharder = require("eris-sharder").Master;
+const cluster = require("cluster");
 
-// const Discord = require('discord.js')
-// const client = new Discord.Client()
+const init = async () => {
+	if(cluster.isMaster) {
+		try { 
+			require("./auth.json");
+			throw new Error("outdated");
+		} catch(e) { 
+			if(e.message == "outdated") throw new Error("auth.json is outdated, please use the .env file instead! See the github page for more info");
+		}
 
-const { MongoClient } = require('mongodb')
-const MongoDBProvider = require('commando-provider-mongo')
-const path = require('path')
-const Commando = require('discord.js-commando')
+		await require("./modules/db").init();
+	}
 
-const config = require('@root/config.json')
-const { loadLanguages } = require('@util/language')
-const loadCommands = require('@root/commands/load-commands')
-const commandBase = require('@root/commands/command-base')
-const loadFeatures = require('@root/features/load-features')
+	let sharder = new Sharder("Bot " + process.env.DISCORD_TOKEN,"/bot.js",{
+		clientOptions: {
+			disableEvents: {
+				GUILD_BAN_ADD: true,
+				GUILD_BAN_REMOVE: true,
+				MESSAGE_DELETE: true,
+				MESSAGE_DELETE_BULK: true,
+				TYPING_START: true,
+				VOICE_STATE_UPDATE: true
+			},
+            messageLimit: 0,
+            guildSubscriptions: false,
+			restMode: true,
+			ratelimiterOffset: 50,
+			intents: [
+				"guilds",
+				"guildMessages",
+				"guildMessageReactions",
+				"directMessages",
+				"directMessageReactions"
+			],
+			maxConcurrency: "auto"
+		},
+		stats: true,
+		debug: true,
+		shards: +process.env.SHARDS,
+		name: "Tupperbox",
+		clusterTimeout: 0.1
+	});
 
-const modLogs = require('@features/mod-logs')
+	sharder.eris.on('debug',console.log);
+	
 
-const client = new Commando.CommandoClient({
-  owner: '251120969320497152',
-  commandPrefix: config.prefix,
-})
+	if(cluster.isMaster) {
+		let events = require("./modules/ipc.js");
 
-client.setProvider(
-  MongoClient.connect(config.mongoPath, {
-    useUnifiedTopology: true,
-  })
-    .then((client) => {
-      return new MongoDBProvider(client, 'WornOffKeys')
-    })
-    .catch((err) => {
-      console.error(err)
-    })
-)
+		cluster.on("message",(worker,message) => {
+			if(message.name == "reloadIPC") {
+				delete require.cache[require.resolve("./modules/ipc.js")];
+				events = require("./modules/ipc.js");
+				console.log("Reloaded IPC plugin!");
+			} else if(events[message.name]) {
+				events[message.name](worker,message,sharder);
+			}
+		});
+	}
+};
 
-client.on('ready', async () => {
-  console.log('The client is ready!')
-
-  client.registry
-    .registerGroups([
-      ['misc', 'misc commands'],
-      ['moderation', 'moderation commands'],
-      ['economy', 'Commands for the economy system'],
-      ['giveaway', 'Commands to manage giveaways'],
-      ['games', 'Commands to handle games'],
-    ])
-    .registerDefaults()
-    .registerCommandsIn(path.join(__dirname, 'cmds'))
-
-  loadLanguages(client)
-  // commandBase.loadPrefixes(client)
-  // loadCommands(client)
-  loadFeatures(client)
-
-  modLogs(client)
-})
-
-client.login(config.token)
+init();
