@@ -143,7 +143,7 @@ Bot.initEvents = function() {
 };
 
 Bot.login = function() {
-	this.bot.login(process.env.TOKEN);
+    this.bot.login(process.env.TOKEN);
 };
 
 Bot.onReady = function() {
