@@ -17,7 +17,7 @@ Music.start(client, {
   botPrefix: '-', // Prefix for the commands.
   helpCmd: 'mhelp',  
   global: false,            // Non-server-specific queues.
-  maxQueueSize: 25,        // Maximum queue size of 25.
+  maxQueueSize: 10,        // Maximum queue size of 25.
   clearInvoker: true, 
   disableLoop: false,
   requesterName: true,
