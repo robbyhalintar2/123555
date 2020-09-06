@@ -13,11 +13,11 @@ const client = new Bot();
 var randomhex = '#'+Math.floor(Math.random()*16777215).toString(16);
 
 Music.start(client, {
-  youtubeKey: "",
+  youtubeKey: "AIzaSyBZE_mDs2kDNFB_WXuPVPBhJTpF4D5z_4I",
   botPrefix: '-', // Prefix for the commands.
   helpCmd: 'mhelp',  
   global: false,            // Non-server-specific queues.
-  maxQueueSize: 0,        // Maximum queue size of 25.
+  maxQueueSize: 25,        // Maximum queue size of 25.
   clearInvoker: true, 
   disableLoop: false,
   requesterName: true,
