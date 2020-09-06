@@ -1,84 +1,30 @@
-# [Dorito Bot Discord.js](https://github.com/Aaronidk/Dorito-bot-discord.js) 
+[![Discord Bots](https://discordbots.org/api/widget/408697648216932372.svg)](https://discordbots.org/bot/408697648216932372)
 
-A multipurpose Discord bot with many NSFW and fun commands as well as utility and moderation. 
-* Go to []() For a full command list.
-* The default prefix is . so a command the help command would be .help 
 
-# [Invite the bot to your server!](https://discordapp.com/oauth2/authorize?client_id=546100087579738133&scope=bot&permissions=506588246) 
-* Use if you don't want to follow the steps bellow.
+## discordPandaJS
 
-# **Installation guide**
-## Getting your credentials:
-* Go to the [Discord Developer Portal](https://discordapp.com/developers/applications/)
-* Make a new application.
-* Go to the bot tab and then click add bot.
-### Token
-Your token is what you use to log the bot in.
-* On the bot tab click copy where it says token.
-* Once you have coppied the token you may now paste it into the config file.
-* **MAKE SURE YOU PASTE IT BETWEEN THE SPEECH MARKS.**
+A big thanks to the bêta-testers, the list is on our discord server.
 
- ### Your discord ID
- * To get the ID go to discords settings and go to the "Appearance".
- * Once you are on the Appearance tab, scroll down until you find "Developer Mode".
- * Turn on "Developer Mode"
- * Now that Developer Mode is on type a message on any server then right click on your name then click coppy id.
- * Paste the coppied ID into the "devID" section of your config.
- 
- * If you followed the stepts correctly the config.json file should now look like this:
-  ```js 
-  {
-  "token": "Your discord token",
-  "prefix": "Your prefix",
-  "devID": "Your discord id"
-   }
-  ```
-  * You may now save the config and move to the installation process.
+## If you want to contribute to the project
 
-## How to install:
-1. Install node.js at https://nodejs.org
-2. Double click the **install.bat** file and wait for everything to install.
-3. Once everything has installed run **start.bat** .
-4. Wait for everything to load and the bot should now be up and running.
+Just fork the project, then modify what you want, and do a pull request, we will see if it's a good idea or not to add what you did on your forked project.
 
-If you want the node_modules folder to be pre installed instead of running install.bat, go to the [Release page and download the latest zip file](https://github.com/Aaronidk/Dorito-bot-discord.js/releases) 
+## Translations
+If you want your language, just fork and translate the /lang/english.js and then change the file name to your language and do a pull request (PR)
 
-## Adding the bot to your server:
-1. Go back to the [Discord Developer Portal](https://discordapp.com/developers/applications/) and click on your application.
-2. Go to the **General Information** tab and you should see your client ID.
-3. Click copy.
-4. Now that you have your client ID go to this website [Discord Permissions Calculator](https://discordapi.com/permissions.html#305261654)
-5. Paste your client ID into where it says **Client ID** then select the permissions you want.
-6. Once you have finished doing that click the invite link that the website generated and it should take you to your bots invite page.
-7. Invite the bot to your server.
-8. Test the bot to see if it works by typing .ping and if the command works then you have completed all the steps correctly.
-***If you want to constantly invite the bot to servers keep the link that the permission calculator generated saved somewhere***
+Language                              | Code    | State      | Translator(s)
+--------------------------------------|---------|------------|------------------------------------------------
+English (United Kingdom)              | english | Finished   | RisedSky
+Français (France)                     | french  | Finished   | Pyrothec06#1012 & Amoky#2264
+Russian                               | russian | Finished   | Showehanle2000#9772
+Spanish                               | spanish | Finished   | Andzas
 
-# Well Done!
-You now have a self hosted working bot on your server!
+## For Updates and help
 
-# Self Hosting: (optional)
-If you want more reliable hosting without having it run on your main pc or on your home network, I recommend buying a web server.
-The bot can be ran on Linux and Windows.
+[![Discord](https://discordapp.com/api/guilds/412262889156771842/widget.png)](https://discord.gg/t2DFzWx)
 
-# Linux Install:
-1. Download nodejs
-2. Download the bot from the release page.
-3. Use the terminal to navigate to the bot folder location where the index is located (dorito.js or index.js)
-4. Type npm install
-5. To start the bot make sure you're terminal is still navigated to the bot folder then type " node . " or "node index.js " or " node dorito.js "
-6. I recommend learning how the terminal works as well as entering directories using cd in the terminal.
+| [![twitter](https://cdn.discordapp.com/attachments/155726317222887425/252192520094613504/twiter_banner.JPG)](https://twitter.com/) | [![discord](https://cdn.discordapp.com/attachments/266240393639755778/281920766490968064/discord.png)](https://discord.gg/t2DFzWx) |
+| --- | --- |
+| **Soon** | **Join my Discord server for some help / updates.** |
 
-# Troubleshooting
-If the music commands do not work then it is because FFMPEG was not installed.
-You can find many videos on Youtube showing how to install FFMPEG.
-Here is one for [Windows](https://www.youtube.com/watch?v=qjtmgCb8NcE)
-or you can try type this in the terminal for Linux " npm i ffmpeg "
-
-# API Keys (optional)
-* The bot needs an Osu api key so get one and go into the "/commands/utility/" folder and find osu.js.
-* Once in the osu.js file you should see text telling you where to paste your api key.
-* Now that you finished setting the API key save the the file and run the bot. The osu command should now work.
-* If you don't care about the osu command or you don't want to get an api key go into the "/commands/utility/" folder and delete the osu.js command. 
-
-> This Bot was made by [Aaronidk/aaronokiay]().
+Our official server : https://discord.gg/t2DFzWx
