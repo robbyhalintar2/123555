@@ -1,29 +1,13 @@
 {
-  "name": "boti-panda",
-  "description": "A brand new discord bot for everything",
-  "version": "2.1.2",
-  "main": "discordPanda.js",
-  "scripts": {
-    "start": "node discordPanda.js"
-  },
+  "name": "discord-bot-maker-bot",
+  "author": "Robert Borghese",
+  "main": "bot.js",
+  "version": "1.6.0",
   "dependencies": {
-    "dblapi.js": "2.4.1",
-    "discord.js": "11.3.0",
-    "erlpack": "0.1.2",
-    "ffmpeg": "0.0.4",
-    "ffmpeg-binaries": "4.0.0",
-    "@ffmpeg-installer/ffmpeg": "^1.0.16",
-    "ffmpeg-node": "0.0.2",
-    "fs": "0.0.1-security",
-    "moment": "2.22.2",
-    "mysql2": "1.6.1",
-    "nekos.life": "1.1.4",
-    "node-opus": "0.3.3",
-    "opusscript": "0.0.6",
-    "request": "2.88.0",
-    "ultron": "1.1.1",
-    "url": "0.11.0",
-    "ws": "7.3.1",
-    "ytdl-core": "0.26.1"
+    "discord.js": "^12.2.0",
+    "fstorm": "latest",
+    "jimp": "latest",
+    "request": "^2.88.2",
+    "valid-url": "^1.0.9"
   }
 }

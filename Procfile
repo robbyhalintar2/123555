@@ -1,1 +1,1 @@
-worker: node discordPanda.js
+Worker: node bot.js
