@@ -1,52 +1,42 @@
 const Discord = require("discord.js");
-const client = new Discord.Client();
 const fs = require("fs");
-const db = require("quick.db");
+const config = require('./config.json')
+const prefix = config.prefix;
+const bot = new Discord.Client({disableMentions:'everyone'});
+const mongoose = require('mongoose')
+bot.prefix = prefix;
+bot.commands = new Discord.Collection();
+bot.aliases = new Discord.Collection();
+bot.snipes = new Discord.Collection();
+bot.events = new Discord.Collection();
+bot.globalChat = {}
+bot.globalChat.calls = new Discord.Collection();
+bot.globalChat.channels = new Discord.Collection();
+bot.globalChat.collectors = new Discord.Collection();
+bot.globalChat.guilds = new Discord.Collection();
+bot.globalChat.guildsSaved = new Discord.Collection();
+bot.categories = fs.readdirSync("./commands/");
 
-client.on("ready", () => {
-  console.log(`Booted Up!`);
+const token = require(`./token.json`)
+mongoose.connect(token.Mongo,{
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
 });
-
-client.on("message", async message => {
-  if (message.author.bot) return;
-  if (!message.content.startsWith(config.prefix)) return;
-  const args = message.content
-    .slice(config.prefix.length)
-    .trim()
-    .split(/ +/g);
-  const command = args.shift().toLowerCase();
-
-  //usage !global <#channel>
-  
-  if (command === "global") {
-    const channel = message.mentions.channels.first();
-    if (!message.member.hasPermission('MANAGE_GUILD')) return message.channel.send(`You are missing the **MANAGE GUILD** permission!`)
-    if (!channel)
-      return message.channel.send(
-        "Invalid Channel, Please mention a channel!!"
-      );
-    db.set(`g_${message.guild.id}`, `${channel.id}`);
-    message.channel.send(`Global Chat Set to ${channel}!`);
-  }
+["command","server"].forEach(handler => {
+    require(`./handlers/${handler}`)(bot);
 });
-
-client.on("message", async message => {
-  if (message.author.bot) return;
-  if (message.content.startsWith(config.prefix)) return;
-  let set = db.fetch(`g_${message.guild.id}`);
-  if (message.channel.id === set) {
-    const embed = new Discord.MessageEmbed()
-      .setTitle("Username: " + message.author.tag)
-      .addField("Message:", message.content)
-      .setFooter(`Server: ${message.guild.name} || Members: ${message.guild.memberCount}`).then(message.delete());
-    client.guilds.cache.forEach(g => {
-      try {
-        client.channels.cache.get(db.fetch(`g_${g.id}`)).send(embed);
-      } catch (e) {
-        return;
-      }
-    });
-  }
-});
-const config = require("./config.json");
-client.login(config.token);
+bot.on('ready',()=>{
+    require('./events/client/ready')(bot)
+})
+bot.on('message',async message=>{
+    message.member //-- GuildMember based
+    message.author //-- User based
+    require('./events/guild/message')(bot,message)
+})
+bot.on('messageUpdate',async(oldMessage,newMessage)=>{
+    require('./events/guild/messageUpdate')(oldMessage,newMessage)
+})
+bot.on('messageDelete',async(message)=>{
+    require('./events/guild/messageDelete')(message)
+})
+bot.login(token.Token)
