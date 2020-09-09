@@ -1,46 +1,52 @@
 {
-  "//1": "describes your app and its dependencies",
-  "//2": "https://docs.npmjs.com/files/package.json",
-  "//3": "updating this file will download and update your packages",
-  "name": "Akari",
-  "version": "1.5.2 - Powered by Lolization LLC",
-  "description": "A simple Discord bot written in discord.js.",
-  "main": "shard.js",
+  "name": "kato-pos",
+  "version": "4.0.0",
+  "description": "Discord Bot Template, only for Perkumpulan Orang Santai.",
+  "main": "index.js",
   "scripts": {
-    "start": "node shard.js"
+    "start": "node index.js"
   },
   "dependencies": {
-    "@discordjs/uws": "^11.149.1",
-    "anime-scraper": "^3.0.0",
-    "bufferutil": "^4.0.0",
-    "canvas": "github:Automattic/node-canvas",
-    "canvas-constructor": "^3.1.0",
-    "cards": "^1.0.1",
-    "cleverbot.io": "^1.0.4",
-    "common-tags": "^1.8.0",
+    "@discordjs/opus": "^0.3.2",
+    "axios": "^0.19.2",
     "cpu-stat": "^2.0.1",
-    "discord.js": "^11.4.2",
-    "discordeco.js": "^0.5.0",
-    "express": "^4.16.4",
-    "fs": "0.0.1-security",
-    "moment": "^2.22.2",
-    "myanimelist": "^0.1.0",
-    "myanimelists": "^1.0.1",
-    "node-superfetch": "^0.1.9",
-    "parse-ms": "^2.0.0",
-    "quick.db": "^7.0.0-b16",
-    "random-js": "^2.1.0"
-  },
+    "dateformat": "^3.0.3",
+    "discord-logs": "^1.7.7",
+    "discord-player": "^2.3.1",
+    "discord.js": "^12.3.1",
+    "discord.js-minesweeper": "^1.0.6",
+    "got": "^11.5.2",
+    "lodash": "^4.17.19",
+    "moment": "^2.27.0",
+    "moment-duration-format": "^2.3.2",
+    "ms": "^2.1.2",
+    "nekos.life": "^2.0.7",
+    "node-fetch": "^2.6.0",
+    "node-superfetch": "^0.1.10",
+    "os": "^0.1.1",
+    "quick.db": "^7.1.1",
+    "random-puppy": "^1.1.0",
+    "string-template": "^1.0.0",
+    "yargs-parser": "^19.0.1"
+  }, 
   "engines": {
-    "node": "8.x"
+    "node": "12.x"
   },
+  "license": "CC-BY-SA-4.0",
+  "devDependencies": {},
   "repository": {
-    "url": "https://glitch.com/edit/#!/hello-express"
+    "type": "git",
+    "url": "git+https://github.com/KatowProject/Kato-Bot.git"
   },
-  "license": "MIT",
   "keywords": [
-    "node",
-    "glitch",
-    "express"
-  ]
+    "bot",
+    "moderation",
+    "music",
+    "fun"
+  ],
+  "author": "KatowProject-ManLord#3143",
+  "bugs": {
+    "url": "https://github.com/KatowProject/Kato-Bot/issues"
+  },
+  "homepage": "https://github.com/KatowProject/Kato-Bot#readme"
 }

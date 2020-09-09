@@ -1,1 +1,0 @@
-module.exports = async (client) => { console.warn }
